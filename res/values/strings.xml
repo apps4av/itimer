@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ITimer</string>
+    <string name="menu_settings">Settings</string>
+    <string name="zero">0</string>
+    <string name="one">1</string>
+    <string name="two">2</string>    
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="Start">Start</string>
+    <string name="Reset">Reset</string>
+    <string name="Stop">Stop</string>
+    <string name="SR">S.Rate\u00b0</string>
+    <string name="Time">Time</string>
+    <string name="OrientationP">&quot;Orientation&quot;</string>
+    <string name="OrientationPLabel">&quot;Portrait Mode&quot;</string>
+    <string name="OrientationPSummary">&quot;Enable for portrait mode operation&quot;</string>
+    <string name="ScreenOn">&quot;Screen Timeout&quot;</string>
+    <string name="ScreenOnLabel">&quot;Keep Screen On&quot;</string>
+    <string name="ScreenOnSummary">&quot;Select to keep screen on while application is running&quot;</string>
+</resources>
