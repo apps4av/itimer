@@ -33,6 +33,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
     private TextView mInput;
     private TextView mOutput;
     private ToggleButton mToggle;
+    private Ringtone mRing;
+    private Vibrator mVib;
+    private boolean mIsSr;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +67,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
             @Override
             public void onClick(View v) {
                 if (((ToggleButton) v).isChecked()) {
-                    mState.setSecs(true);
+                    mIsSr = true;
                 }
                 else {
-                    mState.setSecs(false);                    
+                    mIsSr = false;
                 }
+                mState.setStandardRate(mIsSr); 
             }
        });
         
@@ -79,6 +83,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
             mImageButton[button].setOnClickListener(this);
         }
         
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        mRing = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        mVib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        mIsSr = false;
+
         setContentView(view);
     }
     
@@ -159,6 +168,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
         
         mState.runState(event);
         mInput.setText(mState.getTimeString());
+        enableButtons(mState.isStopped());
+    }
+
+    /**
+     * 
+     */
+    private synchronized void enableButtons(boolean state) {
+        mToggle.setEnabled(state);
+        for(int button = ButtonState.BUTTON_0; button <= ButtonState.BUTTON_9; button++) {
+            mButton[button].setEnabled(state);
+        }
     }
 
     /**
@@ -182,24 +202,31 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
         public void handleMessage(Message msg) {
             int timeLeft = msg.what;
             if(timeLeft >= 0) {
-                mOutput.setText(Integer.toString(timeLeft));
+                if(!mIsSr) {
+                    mOutput.setText(Helper.timeToFour(timeLeft));
+                } 
+                else {
+                    mOutput.setText(Helper.degreesToFour(timeLeft));                    
+                }
             }
-            if(0 == timeLeft) {
+        
+            
+            /*
+             * Expired?
+             */
+            if(timeLeft <= 0) {
                 /*
                  * Feedback to stop timer after a run
                  */
-                mState.runState(ButtonState.BUTTON_STOP);
                 try {
-                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-                    r.play();
-                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    v.vibrate(1000);
+                    mRing.play();
+                    mVib.vibrate(1000);
                 }
-                catch (Exception e) {
-                    
+                catch (Exception e) {    
                 }
             }
+            
+            enableButtons(mState.isStopped());
         }
     };
 

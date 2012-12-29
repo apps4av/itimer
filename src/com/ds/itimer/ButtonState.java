@@ -20,8 +20,9 @@ public class ButtonState extends Observable {
     
     private Timer mTimer;
     
-    private int mSecs = 1;
+    private int mSecs = Helper.SEC;
 
+    private static final int PERIOD_MS = 1000;
     
     /**
      * 
@@ -48,25 +49,18 @@ public class ButtonState extends Observable {
     
     /**
      * 
-     */
-    private void formatInput(int button) {
-        mInputString = mInputString + Integer.toString(button);
-        int start = mInputString.length() - 4;
-        if(start < 0) {
-            start = 0;
-        }
-        String format = mInputString.substring(start, mInputString.length());
-        mInputString = format;
-    }
-
-    /**
-     * 
      * @param secs
      */
     private void startTimer() {
         mTimer = new Timer();
-        mCountDownTimer = new CountDownTimer(Integer.parseInt(mInputString));
-        mTimer.schedule(mCountDownTimer, 0, 1000 / mSecs);        
+        
+        if(!Helper.isStandardRate(mSecs)) {
+            mCountDownTimer = new CountDownTimer(Helper.fourToTime(mInputString));
+        }
+        else {
+            mCountDownTimer = new CountDownTimer(Helper.fourToDegrees(mInputString));            
+        }
+        mTimer.schedule(mCountDownTimer, 0, PERIOD_MS);
     }
 
     /**
@@ -90,16 +84,15 @@ public class ButtonState extends Observable {
      * 
      * @param secs
      */
-    public void setSecs(boolean sr) {
+    public void setStandardRate(boolean sr) {
         if(sr) {
-            mSecs = 3;
+            mSecs = Helper.DEGREES_PER_SEC;
         }
         else {
-            mSecs = 1;
+            mSecs = Helper.SEC;
         }
     }
     
-
     /**
      * 
      * @return
@@ -110,9 +103,18 @@ public class ButtonState extends Observable {
 
     /**
      * 
-     * @param button
+     * @return
      */
-    public void runState(int button) {
+    public boolean isStopped() {
+        return mState == STATE_STOPPED;
+    }
+    
+    /**
+     * 
+     * @param button
+     * @return 
+     */
+    public synchronized void runState(int button) {
         
         switch(mState) {
             case STATE_RUNNING:
@@ -125,7 +127,7 @@ public class ButtonState extends Observable {
                 break;
             case STATE_STOPPED:
                 if(isNumberButton(button)) {
-                    formatInput(button);                    
+                    mInputString = Helper.formatInput(mInputString, button);                    
                 }
                 else if(BUTTON_START == button) {
                     mState = STATE_RUNNING;
@@ -155,7 +157,6 @@ public class ButtonState extends Observable {
     private static final int STATE_STOPPED = 0;
     private static final int STATE_RUNNING = 1;
     
-    
     /**
      * @author zkhan
      *
@@ -176,9 +177,9 @@ public class ButtonState extends Observable {
          */
         @Override
         public void run() {
-            mSecsLeft--;
-            if(mSecsLeft < 0) {
-                mSecsLeft = -1;
+            mSecsLeft -= mSecs;
+            if(mSecsLeft <= 0) {
+                runState(ButtonState.BUTTON_STOP);
             }
             ButtonState.this.setChanged();
             ButtonState.this.notifyObservers(mSecsLeft); 

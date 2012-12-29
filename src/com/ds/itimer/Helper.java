@@ -24,6 +24,80 @@ import android.view.WindowManager;
  */
 public class Helper {
     
+    public static final int DEGREES_PER_SEC = 3;
+    public static final int SEC = 1;
+    
+    /**
+     * 
+     * @param input
+     * @return
+     */
+    public static int fourToTime(String input) {
+        int min = Integer.parseInt(input.substring(0, 2));
+        int sec = Integer.parseInt(input.substring(2, 4));
+        return min * 60 + sec;        
+    }
+
+    /**
+     * 
+     * @param input
+     * @param newDigit
+     * @return
+     */
+    public static String formatInput(String input, int newDigit) {
+        String output = input + Integer.toString(newDigit);
+        int start = output.length() - 4;
+        if(start < 0) {
+            start = 0;
+        }
+        String format = output.substring(start, output.length());
+        return format;
+    }
+
+    /**
+     * 
+     * @param rate
+     * @return
+     */
+    public static boolean isStandardRate(int rate) {
+        if(rate == Helper.DEGREES_PER_SEC) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * 
+     * @param input
+     * @return
+     */
+    public static int fourToDegrees(String input) {
+        int deg = Integer.parseInt(input);
+        return deg;        
+    }
+
+    /**
+     * 
+     * @param input
+     * @return
+     */
+    public static String degreesToFour(int input) {
+        String four = String.format("%04d", input);
+        return four;
+    }
+
+    /**
+     * 
+     * @param input
+     * @return
+     */
+    public static String timeToFour(int input) {
+        int min = input / 60;
+        int sec = input % 60;
+        String four = String.format("%02d", min) + String.format("%02d", sec);
+        return four;
+    }
+
     /**
      * Set common features of all activities in the framework
      * @param act
