@@ -3,8 +3,8 @@ package com.ds.itimer;
 import java.util.Observable;
 import java.util.Observer;
 
-import android.media.Ringtone;
-import android.media.RingtoneManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
     private TextView mInput;
     private TextView mOutput;
     private ToggleButton mToggle;
-    private Ringtone mRing;
+    private ToneGenerator mRing;
     private Vibrator mVib;
     private boolean mIsSr;
     private Preferences mPref;
@@ -86,8 +86,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
             mImageButton[button].setOnClickListener(this);
         }
         
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        mRing = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        /*
+         * Max volume;
+         */
+        mRing = new ToneGenerator(AudioManager.STREAM_ALARM, ToneGenerator.MAX_VOLUME);
         mVib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         mIsSr = false;
 
@@ -272,7 +274,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
                  * Feedback to stop timer after a run
                  */
                 try {
-                    mRing.play();
+                    mRing.startTone(ToneGenerator.TONE_CDMA_HIGH_PBX_SS, 1000);
                     if(mPref.useVibrator()) {
                         mVib.vibrate(1000);
                     }

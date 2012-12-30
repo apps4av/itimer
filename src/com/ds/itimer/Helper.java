@@ -101,7 +101,7 @@ public class Helper {
             /*
              * No support > 2 digits
              */
-            four = "XX" + String.format("%02d", sec);            
+            four = "0C" + String.format("%02d", sec);            
         }
         else {
             four = String.format("%02d", min) + String.format("%02d", sec);
