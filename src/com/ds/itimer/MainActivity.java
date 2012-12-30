@@ -13,11 +13,13 @@ import android.os.Vibrator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -36,12 +38,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
     private Ringtone mRing;
     private Vibrator mVib;
     private boolean mIsSr;
+    private Preferences mPref;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
+        mPref = new Preferences(this);
         mState = new ButtonState();
         mState.addObserver(this);
         mButton = new Button[ButtonState.BUTTON_TOTAL];
@@ -74,7 +78,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
                 }
                 mState.setStandardRate(mIsSr); 
             }
-       });
+        });
         
         for(int button = ButtonState.BUTTON_0; button <= ButtonState.BUTTON_9; button++) {
             mButton[button].setOnClickListener(this);
@@ -88,8 +92,29 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
         mVib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         mIsSr = false;
 
-        setContentView(view);
+        setContentView(view);        
     }
+
+    @Override 
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(!mPref.useAnyKey()) {
+            super.onKeyDown(keyCode, event);
+            return false;
+        }
+        
+        if(keyCode == KeyEvent.KEYCODE_MENU) {
+            return false;
+        }
+        
+        mState.runState(ButtonState.TOGGLE);
+        return true;
+    }
+        
+    /*
+     * For being on tab this activity discards back to main activity
+     * (non-Javadoc)
+     * @see android.app.Activity#onBackPressed()
+     */
     
     /* (non-Javadoc)
      * @see android.app.Activity#onResume()
@@ -98,6 +123,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
     public void onResume() {
         super.onResume();
         Helper.setOrientationAndOn(this);
+    }
+
+    /* (non-Javadoc)
+     * @see android.app.Activity#onResume()
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -119,6 +152,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
                  * Bring up preferences
                  */
                 startActivity(new Intent(this, PrefActivity.class));
+                break;
+                
+            case R.id.menu_help:
+                String url = "http://apps4av.com";
+                Intent it = new Intent(Intent.ACTION_VIEW);
+                it.setData(Uri.parse(url));
+                startActivity(it);
                 break;
         }
         return true;
@@ -168,6 +208,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
         
         mState.runState(event);
         mInput.setText(mState.getTimeString());
+        /*
+         * Disable some buttons when running
+         */
         enableButtons(mState.isStopped());
     }
 
@@ -220,12 +263,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
                  */
                 try {
                     mRing.play();
-                    mVib.vibrate(1000);
+                    if(mPref.useVibrator()) {
+                        mVib.vibrate(1000);
+                    }
                 }
                 catch (Exception e) {    
                 }
             }
             
+            /*
+             * Enable buttons when stopped
+             */
             enableButtons(mState.isStopped());
         }
     };

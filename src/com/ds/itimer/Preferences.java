@@ -57,4 +57,21 @@ public class Preferences {
     public boolean shouldScreenStayOn() {
         return(mPref.getBoolean(mContext.getString(R.string.ScreenOn), true));
     }
+
+    /**
+     * 
+     * @return
+     */
+    public boolean useAnyKey() {
+        return(mPref.getBoolean(mContext.getString(R.string.UseAny), false));
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public boolean useVibrator() {
+        return(mPref.getBoolean(mContext.getString(R.string.UseVibrator), false));
+    }
+
 }

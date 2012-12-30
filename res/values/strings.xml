@@ -3,6 +3,7 @@
 
     <string name="app_name">ITimer</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_help">Help</string>
     <string name="zero">0</string>
     <string name="one">1</string>
     <string name="two">2</string>    
@@ -25,4 +26,10 @@
     <string name="ScreenOn">&quot;Screen Timeout&quot;</string>
     <string name="ScreenOnLabel">&quot;Keep Screen On&quot;</string>
     <string name="ScreenOnSummary">&quot;Select to keep screen on while application is running&quot;</string>
+    <string name="UseVibrator">&quot;Vibration Alert&quot;</string>
+    <string name="UseVibratorLabel">&quot;Use Vibration Alert&quot;</string>
+    <string name="UseVibratorSummary">&quot;Select to enable vibration alert&quot;</string>
+    <string name="UseAny">&quot;Any Key&quot;</string>
+    <string name="UseAnyLabel">&quot;Use Any Key for Start/Stop&quot;</string>
+    <string name="UseAnySummary">&quot;Select to use any key for timer start/stop (excludes Power, Home, Menu keys)&quot;</string>
 </resources>

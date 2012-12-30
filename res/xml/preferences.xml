@@ -23,4 +23,14 @@ Redistribution and use in source and binary forms, with or without modification,
 	    android:title="@string/OrientationPLabel"
 	    android:summary="@string/OrientationPSummary"
 	    android:defaultValue="true"/>
+    <CheckBoxPreference
+        android:key="@string/UseVibrator"
+        android:title="@string/UseVibratorLabel"
+        android:summary="@string/UseVibratorSummary"
+        android:defaultValue="false"/>
+    <CheckBoxPreference
+        android:key="@string/UseAny"
+        android:title="@string/UseAnyLabel"
+        android:summary="@string/UseAnySummary"
+        android:defaultValue="false"/>
 </PreferenceScreen>

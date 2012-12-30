@@ -114,22 +114,22 @@ public class ButtonState extends Observable {
      * @param button
      * @return 
      */
-    public synchronized void runState(int button) {
+    public synchronized void runState(int event) {
         
         switch(mState) {
             case STATE_RUNNING:
-                if(isNumberButton(button)) {
+                if(isNumberButton(event)) {
                 }
-                else if(BUTTON_STOP == button) {
+                else if((BUTTON_STOP == event) || (TOGGLE == event)) {
                     mState = STATE_STOPPED;
                     stopTimer();
                 }
                 break;
             case STATE_STOPPED:
-                if(isNumberButton(button)) {
-                    mInputString = Helper.formatInput(mInputString, button);                    
+                if(isNumberButton(event)) {
+                    mInputString = Helper.formatInput(mInputString, event);                    
                 }
-                else if(BUTTON_START == button) {
+                else if((BUTTON_START == event) || (TOGGLE == event)) {
                     mState = STATE_RUNNING;
                     startTimer();
                 }
@@ -153,6 +153,7 @@ public class ButtonState extends Observable {
     public static final int BUTTON_STOP = 10;
     public static final int BUTTON_START = 11;
     public static final int BUTTON_TOTAL = 12;
+    public static final int TOGGLE = 13;
 
     private static final int STATE_STOPPED = 0;
     private static final int STATE_RUNNING = 1;
