@@ -73,7 +73,9 @@ public class Helper {
      */
     public static int fourToDegrees(String input) {
         int deg = Integer.parseInt(input);
-        return deg;        
+        float rnd = Math.round((float)deg / (float)DEGREES_PER_SEC) * (float)DEGREES_PER_SEC;
+        deg = (int)rnd;
+        return deg;    
     }
 
     /**
