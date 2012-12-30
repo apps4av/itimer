@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -154,7 +153,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
                 startActivity(new Intent(this, PrefActivity.class));
                 break;
                 
-            case R.id.menu_help:
+            case R.id.menu_help:    
                 String url = "http://apps4av.com";
                 Intent it = new Intent(Intent.ACTION_VIEW);
                 it.setData(Uri.parse(url));
