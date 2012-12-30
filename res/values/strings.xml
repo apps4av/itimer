@@ -30,6 +30,6 @@
     <string name="UseVibratorLabel">&quot;Use Vibration Alert&quot;</string>
     <string name="UseVibratorSummary">&quot;Select to enable vibration alert&quot;</string>
     <string name="UseAny">&quot;Any Key&quot;</string>
-    <string name="UseAnyLabel">&quot;Use Any Key for Start/Stop&quot;</string>
+    <string name="UseAnyLabel">&quot;Use Any Key&quot;</string>
     <string name="UseAnySummary">&quot;Select to use any key for timer start/stop (excludes Power, Home, Menu keys)&quot;</string>
 </resources>

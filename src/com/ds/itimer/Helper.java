@@ -94,7 +94,16 @@ public class Helper {
     public static String timeToFour(int input) {
         int min = input / 60;
         int sec = input % 60;
-        String four = String.format("%02d", min) + String.format("%02d", sec);
+        String four;
+        if(min > 99) {
+            /*
+             * No support > 2 digits
+             */
+            four = "XX" + String.format("%02d", sec);            
+        }
+        else {
+            four = String.format("%02d", min) + String.format("%02d", sec);
+        }
         return four;
     }
 

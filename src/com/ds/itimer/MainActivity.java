@@ -94,19 +94,30 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
         setContentView(view);        
     }
 
+    /**
+     * 
+     */
     @Override 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(!mPref.useAnyKey()) {
-            super.onKeyDown(keyCode, event);
+        if(KeyEvent.KEYCODE_MENU == keyCode) {
+            /*
+             * Exclude menu from all keys
+             */
             return false;
         }
-        
-        if(keyCode == KeyEvent.KEYCODE_MENU) {
-            return false;
+        if(mPref.useAnyKey()) {
+            mState.runState(ButtonState.TOGGLE);
+            enableButtons(mState.isStopped());
+            return true;
         }
-        
-        mState.runState(ButtonState.TOGGLE);
-        return true;
+        if(KeyEvent.KEYCODE_BACK == keyCode) {
+            /*
+             * Special handling for back key
+             */
+            super.onBackPressed();
+            return true;
+        }
+        return false;        
     }
         
     /*
