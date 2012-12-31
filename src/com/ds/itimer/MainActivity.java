@@ -219,9 +219,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
                 break;
             case R.id.buttonStop:
                 event = ButtonState.BUTTON_STOP;
-                if(mState.isStopped()) {
-                    mState.setTime(getString(R.string.Zerozero));
-                }
                 break;
             case R.id.buttonMin:
                 event = ButtonState.BUTTON_ONE_MINUTE;
