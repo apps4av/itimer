@@ -20,6 +20,9 @@
     <string name="SR">S.Rt.\u00b0</string>
     <string name="Time">Time</string>
     <string name="Zerozero">0000</string>
+    <string name="ZeroOne">0100</string>
+    <string name="OneMinute">1 Min.</string>
+    <string name="OneEighty">0180</string>
     <string name="OrientationP">&quot;Orientation&quot;</string>
     <string name="OrientationPLabel">&quot;Portrait Mode&quot;</string>
     <string name="OrientationPSummary">&quot;Enable for portrait mode operation&quot;</string>

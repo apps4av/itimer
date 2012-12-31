@@ -61,11 +61,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
         mButton[ButtonState.BUTTON_7] = (Button)view.findViewById(R.id.button7);
         mButton[ButtonState.BUTTON_8] = (Button)view.findViewById(R.id.button8);
         mButton[ButtonState.BUTTON_9] = (Button)view.findViewById(R.id.button9);
+        mButton[ButtonState.BUTTON_9] = (Button)view.findViewById(R.id.button9);
         mImageButton[ButtonState.BUTTON_STOP]  = (ImageButton)view.findViewById(R.id.buttonStop);
         mImageButton[ButtonState.BUTTON_START] = (ImageButton)view.findViewById(R.id.buttonStart);
+        mImageButton[ButtonState.BUTTON_ONE_MINUTE] = (ImageButton)view.findViewById(R.id.buttonMin);
         mInput = (TextView)view.findViewById(R.id.textView2);
         mOutput = (TextView)view.findViewById(R.id.textView4);
         mToggle = (ToggleButton)view.findViewById(R.id.toggleButton1);
+        mState.setTime(mInput.getText().toString());
         mToggle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +85,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
         for(int button = ButtonState.BUTTON_0; button <= ButtonState.BUTTON_9; button++) {
             mButton[button].setOnClickListener(this);
         }
+        
         for(int button = ButtonState.BUTTON_STOP; button < ButtonState.BUTTON_TOTAL; button++) {
             mImageButton[button].setOnClickListener(this);
         }
@@ -215,6 +219,20 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
                 break;
             case R.id.buttonStop:
                 event = ButtonState.BUTTON_STOP;
+                if(mState.isStopped()) {
+                    mState.setTime(getString(R.string.Zerozero));
+                }
+                break;
+            case R.id.buttonMin:
+                event = ButtonState.BUTTON_ONE_MINUTE;
+                if(mState.isStopped()) {
+                    if(mIsSr) {
+                        mState.setTime(getString(R.string.OneEighty));                
+                    }
+                    else {
+                        mState.setTime(getString(R.string.ZeroOne));
+                    }
+                }
                 break;
         }
         
@@ -231,6 +249,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Obse
      */
     private synchronized void enableButtons(boolean state) {
         mToggle.setEnabled(state);
+        mImageButton[ButtonState.BUTTON_ONE_MINUTE].setEnabled(state);
         for(int button = ButtonState.BUTTON_0; button <= ButtonState.BUTTON_9; button++) {
             mButton[button].setEnabled(state);
         }

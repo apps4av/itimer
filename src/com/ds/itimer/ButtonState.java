@@ -62,6 +62,14 @@ public class ButtonState extends Observable {
         }
         mTimer.schedule(mCountDownTimer, 0, PERIOD_MS);
     }
+    
+    /**
+     * 
+     * @param time
+     */
+    public void setTime(String time) {
+        mInputString = time;
+    }
 
     /**
      * 
@@ -77,7 +85,6 @@ public class ButtonState extends Observable {
      */
     public ButtonState() {
         mState = STATE_STOPPED;
-        mInputString = "0000";
     }
     
     /**
@@ -152,8 +159,9 @@ public class ButtonState extends Observable {
     public static final int BUTTON_9 = 9;
     public static final int BUTTON_STOP = 10;
     public static final int BUTTON_START = 11;
-    public static final int BUTTON_TOTAL = 12;
-    public static final int TOGGLE = 13;
+    public static final int BUTTON_ONE_MINUTE = 12;
+    public static final int BUTTON_TOTAL = 13;
+    public static final int TOGGLE = 14;
 
     private static final int STATE_STOPPED = 0;
     private static final int STATE_RUNNING = 1;
